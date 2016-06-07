@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'suit',
     'info.apps.InfoConfig',
     'push.apps.PushConfig',
     'django.contrib.admin',
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'CityGuide.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,7 +122,18 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(os.path.dirname(__file__),'static')
+STATICFILES_DIRS = (
+    ('css',os.path.join(STATIC_ROOT,'css').replace('\\','/') ),  
+    ('js',os.path.join(STATIC_ROOT,'js').replace('\\','/') ),
+    ('img',os.path.join(STATIC_ROOT,'img').replace('\\','/') ),
+    ('sweetalert',os.path.join(STATIC_ROOT,'sweetalert').replace('\\','/') ),
+    ('upload',os.path.join(STATIC_ROOT,'upload').replace('\\','/') ),
+    ('bootstrap',os.path.join(STATIC_ROOT,'bootstrap').replace('\\','/') ),
+    ('fonts',os.path.join(STATIC_ROOT,'fonts').replace('\\','/') ),
+)
