@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/static/css/sweetalert.css" />
   <link type="image/x-icon" rel="shortcut icon" href="/static/img/favicon.ico" />
   <link rel="stylesheet" href="/static/css/sign.css" />
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
   {% load static %}  
   <script src="{% static "js/jquery.min.js" %}" ></script>
   {% load static %}
@@ -23,7 +24,7 @@
           <h4>  &nbsp&nbsp&nbsp&nbsp a web site designed for Trip Guide App.</h4>
     </div>
     <!-- Interactive Login - START -->
-    <div class="container-fluid" style="position:absolute; top:20%; right:22%">
+    <div class="container-fluid" style="position:absolute; top:22%; right:17%">
         <div class="row">
             <div class="loginpanel">
             <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
@@ -33,13 +34,15 @@
               <div>
               <form action="{{ app_path }}" method="post" id="login-form">
               {% csrf_token %}
+              <label>&nbsp;</label> 
                 <div class="form-row">
                 {{ form.username.errors }}
-                {{ form.username.label_tag }} {{ form.username }}
-               </div>
+                <!-- {{ form.username.label_tag }} --> {{ form.username }}
+               </div> <label>&nbsp;</label>
                 <div class="form-row">
-                  {{ form.password.errors }}
-                  {{ form.password.label_tag }} {{ form.password }}
+                 {{ form.password.errors }}
+                 <!--  {{ form.password.label_tag }} --> {{ form.password }}
+                  <label>&nbsp;</label>
                   <input type="hidden" name="next" value="{{ next }}" />
                 </div>
                {% url 'admin_password_reset' as password_reset_url %}
@@ -49,7 +52,7 @@
                  </script>
                 {% endif %}
               <div class="submit-row">
-                <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
+               <!--  <label>&nbsp;</label> --><button class="btn btn-success" style="width:100%;" type="submit" value="{% trans 'Log in' %}" ><span class="fa fa-check"></span></input>
               </div>
 
               </div>

@@ -1,0 +1,175 @@
+{% load i18n admin_static %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+{% block extrastyle %}{% endblock %}
+{% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
+
+    <meta charset="utf-8">
+    <meta name="viewport"  content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link type="image/x-icon" rel="shortcut icon" href="/static/img/favicon.ico" />
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap-theme.css" media="screen" >
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/projects/avgrund.css">
+    <link rel="stylesheet" href="/static/css/sweetalert.css" />
+    {% load static %}  
+    <script src="{% static "js/jquery.min.js" %}" ></script>
+    {% load static %}
+    <script src="{% static "js/sweetalert.min.js" %}"></script>
+{% block extrahead %}
+{% endblock %}
+{% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}"
+  data-admin-utc-offset="{% now "Z" %}">
+
+
+{% if not is_popup %}
+<!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top headroom" style="height:100px;" >
+<!-- Container -->
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Button for smallest screens -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span> 
+                    <span class="icon-bar"></span> 
+                    <span class="icon-bar"></span> 
+                </button>
+                {% if is_login_success %}
+                <a class="navbar-brand" style="margin-top:-1px;" href=# ><img src="/static/img/logo.png"></a>
+                {% else %}
+                <a class="navbar-brand" style="margin-top:-1px;" href=# ><img src="/static/img/logo.png"></a>
+                {% endif %}
+            </div>
+            {% if has_permission %}
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li>
+                     <a><strong>Welcome, {% firstof user.get_short_name user.get_username %}</strong></a>
+                    </li>|
+                    <li class="active" ><a href="{% url 'admin:index' %}">Home</a></li>
+                    <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Project<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a id="find-proj" href="#">Find Project</a></li>
+                            <li><a id="create-proj" href="#">Create Project</a></li>
+                            <li class=""><a href=#>My Projects</a></li>
+                            <li class=""><a href={#>My Applications</a></li>
+                        </ul>
+                    </li> -->
+                    <li><a id="info" href=#>Info</a></li>
+                    <li><a id="push" href=#>Push</a></li>
+                    {% if user.has_usable_password %}
+                     <li> 
+                     <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> 
+                     </li>
+                     {% endif %}
+                    <li><a class="btn" href="{% url 'admin:logout' %}">LOG OUT</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+            {% else %}
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a class="btn" href="{% url 'admin:index' %}">SIGN IN</a></li> 
+                </ul>
+            </div><!--/.nav-collapse -->
+            {% endif %}
+        </div>
+    </div> 
+{% endif %}
+    <!-- /.navbar -->
+
+
+{% block contents %}
+    <div id="large-header" class="large-header demo-3">
+        <canvas id="demo-canvas"></canvas>
+        <h1 class="main-title"> <!-- spark brilliant --> cityguide</span></h1>
+    </div>
+<!-- Intro -->
+    <div class="container text-center">
+        <br> <br>
+        <h2 class="thin">Trip guide is a web site for Trip APP.</h2>
+        <p class="text-muted">
+            modify the trip information
+            <br>
+            publish trip information to App.
+        </p>
+    </div>
+     {% load static %}  
+    <script src="{% static "js/home/home.js" %}" ></script>
+{% endblock %}
+
+
+    {% block messages %}
+        {% if messages %}
+        <ul class="messagelist">{% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endblock messages %}
+
+ 
+    
+{% block footer %}
+<footer id="footer" class="top-space">
+    <div class="footer2">
+        <div class="container">
+            <div class="row">               
+                <div class="col-md-6 widget">
+                    <div class="widget-body">
+                        <p class="simplenav" stlye="">
+                            {% if has_permission %}
+                            <a href="{% url 'admin:index' %}" >Home</a> | 
+                            <a id="info" href=# >Info</a> 
+                            |
+                            <a id="push" href=# >Push</a> 
+                            |
+                            <a id="logout" href="{% url 'admin:logout' %}" >Logout</a> 
+                            {% else %}
+                            <b><a href="{% url 'admin:index' %}">Sign in</a></b>
+                            {% endif %}
+                            | 
+                            <a href="javascript:scroll(0,0)">
+                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div> <!-- /row of widgets -->
+        </div>
+    </div>
+</footer>   
+{% endblock %}
+<!-- to top -->
+<a href="#" onclick="gotoTop();return false;" class="totop"></a>
+
+
+    {% load static %}  
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}" ></script>
+    {% load static %}  
+    <script src="{% static "js/home/headroom.min.js" %}" ></script>
+    {% load static %}  
+    <script src="{% static "js/home/jQuery.headroom.min.js" %}" ></script>
+    {% load static %}  
+    <script src="{% static "js/home/template.js" %}" ></script>
+
+    {% load static %}
+    <script src="{% static "js/bg/TweenLite.min.js" %}"></script>
+    {% load static %}
+    <script src="{% static "js/bg/EasePack.min.js" %}"></script>
+    {% load static %}
+    <script src="{% static "js/bg/rAF.js" %}"></script>
+
+    {% load static %}
+    <script src="{% static "js/projects/jquery.avgrund.js" %}"></script>
+    {% block js %}
+    {% endblock %}
+</body>
+</html>
