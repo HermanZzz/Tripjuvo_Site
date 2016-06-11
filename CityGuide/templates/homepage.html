@@ -1,0 +1,231 @@
+{% load admin_static %}{% load suit_tags %}{% load url from suit_compat %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% block title %}{{ title }} | {{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</title>
+  {% block before_suit_styles %}{% endblock %}
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% endblock %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'suit/bootstrap/css/bootstrap.min.css' %}" media="all"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}" media="all">
+      <link rel="stylesheet" href="/static/css/home.css">
+  {% block extrastyle %}{% endblock %}
+  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"/>{% endif %}
+  <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+  <script src="{% static 'suit/js/jquery-1.8.3.min.js' %}"></script>
+  <script type="text/javascript">var Suit = { $: $.noConflict() }; if (!$) $ = Suit.$; </script>
+  <script src="{% static 'suit/bootstrap/js/bootstrap.min.js' %}"></script>
+  {% if 'SHOW_REQUIRED_ASTERISK'|suit_conf %}
+  <style type="text/css">.required:after { content: '*'; margin: 0 0 0 5px; position: absolute; color: #ccc;}</style>
+  {% endif %}
+  {% block extrahead %}{% endblock %}
+  {% block blockbots %}
+    <meta name="robots" content="NONE,NOARCHIVE"/>{% endblock %}
+  {% load static %}  
+  <script src="{% static "js/jquery.min.js" %}" ></script>
+  {% load static %}
+  <script src="{% static "js/sweetalert.min.js" %}"></script>
+  {% load static %}
+  <script src="{% static "js/bg/TweenLite.min.js" %}"></script>
+  {% load static %}
+  <script src="{% static "js/bg/EasePack.min.js" %}"></script>
+  {% load static %}
+  <script src="{% static "js/bg/rAF.js" %}"></script>
+  {% load static %}  
+  <script src="{% static "js/home/template.js" %}" ></script>
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+<!-- Sticky footer wrap -->
+<div id="wrap">
+
+  <!-- Container -->
+  {% block container %}
+    <div id="container">
+
+      {% block header %}
+        {% if not is_popup %}
+          <!-- Header -->
+          <div id="header" class="header">
+            <div id="branding">
+              <a href="{% url 'admin:index' %}"><h1 id="site-name">{% block branding %}{{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</h1></a>
+            </div>
+
+            {% block header_time %}
+            <div class="header-content header-content-first">
+              <div class="header-column icon">
+                <i class="icon-time"></i>
+              </div>
+              <div class="header-column">
+                <span class="date"> {% suit_date %}</span><br>
+                <span class="time" id="clock">{% suit_time %}</span>
+              </div>
+            </div>
+            {% endblock %}
+
+            {% block header_content %}
+              <!--<div class="header-content">
+                <div class="header-column icon">
+                  <i class="icon-comment"></i>
+                </div>
+                <div class="header-column">
+                  <a href="" class="grey"><b>2</b> new messages</a>
+                </div>
+              </div>-->
+            {% endblock %}
+
+            {% if user.is_active and user.is_staff %}
+              <div id="user-tools">
+                {% block welcome-msg %}
+                  {% trans 'Welcome,' %}
+                  <strong>
+                    {% filter force_escape %}
+                      {% firstof user.first_name user.username %}{% endfilter %}</strong>.
+                {% endblock %}
+                <span class="user-links">
+                {% block userlinks %}
+                  {% url 'django-admindocs-docroot' as docsroot %}
+                  {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
+                    <span class="separator">|</span>
+                  {% endif %}
+
+                  <a href="{% url 'info:index' %}">{% trans 'Home' %}</a>
+                  <span class="separator">|</span>
+                  <a href="{% url 'admin:index' %}">{% trans 'Info' %}</a>
+                  <span class="separator">|</span>
+                  <a id="push" href="#pushMessage" data-toggle="modal">{% trans 'Notification' %}</a>
+                  <span class="separator">|</span>
+                  <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
+                  <span class="separator">|</span>
+                  <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+                {% endblock %}
+                </span>
+              </div>
+            {% endif %}
+            {% block nav-global %}{% endblock %}
+          </div>
+        {% endif %}
+        <!-- END Header -->
+      {% endblock %}
+
+     <div id="large-header" class="large-header demo-3">
+        <canvas id="demo-canvas"></canvas>
+        <h1 class="main-title"> <!-- spark brilliant --> cityguide</span></h1>
+    </div>
+
+<!-- Intro -->
+    <div class="container text-center">
+        <br> <br>
+        <h2 class="thin">Trip guide is a web site for Trip APP.</h2>
+        <p class="text-muted">
+            <strong>functionality:</strong><br>
+            - modify public trip information;
+            <br>
+            - publish trip information to user;
+            <br> - ...
+        </p>
+    </div>
+     {% load static %}  
+    <script src="{% static "js/home/home.js" %}" ></script>
+  {% endblock %}
+
+
+
+
+{% block footer %}
+  {% if not is_popup %}
+    <footer id="footer" class="top-space">
+      <div class="footer2">
+          <div class="container">
+              <div class="row">               
+                  <div class="col-md-6 widget">
+                      <div class="widget-body">
+                          <p class="simplenav" stlye="">
+                              {% if has_permission %}
+                              <a href="{% url 'info:index' %}" >Home</a> | 
+                              <a id="info" href="{% url 'admin:index' %}"  >Info</a> 
+                              |
+                              <a id="push" href="#pushMessage" data-toggle="modal">Notification</a> 
+                              |
+                              <a id="logout" href="{% url 'admin:logout' %}" >Logout</a> 
+                              {% else %}
+                              <b><a href="{% url 'admin:index' %}">Sign in</a></b>
+                              {% endif %}
+                              | 
+                              <a href="javascript:scroll(0,0)">
+                              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                              </a>
+                          </p>
+                      </div>
+                  </div>
+              </div> <!-- /row of widgets -->
+          </div>
+      </div>
+    </footer>   
+  {% endif %}
+{% endblock %}
+
+<!-- to top -->
+<a href="#" onclick="gotoTop();return false;" class="totop"></a>
+
+<!--弹出框-->
+  <div class="modal fade" id="pushMessage" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              </div>
+
+              <div class="modal-body">
+                  <div class="tabbable" id="tabs-299950">
+                      
+                      <div class="tab-content">
+                          <div class="tab-pane active" id="information">
+
+                              <div align="left"><h4 >Push Notification</h4></div>
+                              <form class="form-horizontal" id="push-form" action="" method="POST" style="text-align:center;">
+                                {% csrf_token %}
+                                 <fieldset>
+                                    <div class="control-group">
+                                    <!-- Text input-->
+                                      <label class="control-label">Insert Tittle</label>
+                                      <div class="controls">
+                                        <input type="text" name = "tittle" id="tittle" placeholder="Tittle" class="input-xlarge form-control">
+                                        <p class="help-block"> </p>
+                                      </div>
+                                    </div>
+                                    <div class="control-group">
+                                    <!-- Text input-->
+                                     <label class="control-label">Insert Message</label>
+                                      <div class="controls">
+                                        <input type="text" name = "massage" id="massage" placeholder="Massage" class="input-xlarge form-control">
+                                        <p class="help-block"> </p>
+                                      </div>
+                                    </div>
+
+                                     <div class="control-group">
+                                          <label class="control-label"> </label>
+                                          <!-- Button -->
+                                          <div class="controls">
+                                            <button type="submit" class="btn btn-success">Send</button>
+                                          </div>
+                                          <p class="help-block"></p>
+                                     </div>
+                                </fieldset>
+                               </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--弹出框-->
+
+  <script src="{% static 'suit/js/suit.js' %}"></script>
+  {% block extrajs %}{% endblock %}
+
+</body>
+</html>

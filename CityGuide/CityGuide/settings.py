@@ -136,4 +136,37 @@ STATICFILES_DIRS = (
     ('upload',os.path.join(STATIC_ROOT,'upload').replace('\\','/') ),
     ('bootstrap',os.path.join(STATIC_ROOT,'bootstrap').replace('\\','/') ),
     ('fonts',os.path.join(STATIC_ROOT,'fonts').replace('\\','/') ),
+    ('admin',os.path.join(STATIC_ROOT,'admin').replace('\\','/') ),
+    ('cms',os.path.join(STATIC_ROOT,'cms').replace('\\','/') ),
+    ('suit',os.path.join(STATIC_ROOT,'suit').replace('\\','/') ),
 )
+
+# Django Suit configuration example
+SUIT_CONFIG = {
+    # header
+     'ADMIN_NAME': 'City Guide',
+    # 'HEADER_DATE_FORMAT': 'l, j. F Y',
+    # 'HEADER_TIME_FORMAT': 'H:i',
+
+    # forms
+    # 'SHOW_REQUIRED_ASTERISK': True,  # Default True
+    # 'CONFIRM_UNSAVED_CHANGES': True, # Default True
+
+    # menu
+    # 'SEARCH_URL': '/admin/auth/user/',
+    # 'MENU_ICONS': {
+    #    'sites': 'icon-leaf',
+    #    'auth': 'icon-lock',
+    # },
+    # 'MENU_OPEN_FIRST_CHILD': True, # Default True
+    # 'MENU_EXCLUDE': ('auth.group',),
+    # 'MENU': (
+    #     'sites',
+    #     {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
+    #     {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
+    #     {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
+    # ),
+
+    # misc
+    # 'LIST_PER_PAGE': 15
+}

@@ -24,7 +24,7 @@
           <h4>  &nbsp&nbsp&nbsp&nbsp a web site designed for Trip Guide App.</h4>
     </div>
     <!-- Interactive Login - START -->
-    <div class="container-fluid" style="position:absolute; top:22%; right:17%">
+    <div class="container-fluid" style="position:absolute; top:24%; right:15%">
         <div class="row">
             <div class="loginpanel">
             <i id="loading" class="hidden fa fa-spinner fa-spin bigicon"></i>
@@ -76,6 +76,13 @@
 </p>
 {% endif %}
 
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<script>
+      swal("Oops...", " {{ error }}", "error");
+</script>
+{% endfor %}
+{% endif %}
 
 <script type="text/javascript">
 document.getElementById('id_username').focus()
