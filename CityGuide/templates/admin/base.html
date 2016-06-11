@@ -49,7 +49,7 @@
           <!-- Header -->
           <div id="header" class="header">
             <div id="branding">
-              <a href="{% url 'admin:index' %}"><h1 id="site-name">{% block branding %}{{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</h1></a>
+              <a href="{% url 'info:index' %}"><h1 id="site-name">{% block branding %}{{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</h1></a>
             </div>
 
             {% block header_time %}
@@ -205,8 +205,8 @@
                       <div class="widget-body">
                           <p class="simplenav" stlye="">
                               {% if has_permission %}
-                              <a href="{% url 'admin:index' %}" >Home</a> | 
-                              <a id="info" href=# >Info</a> 
+                              <a href="{% url 'info:index' %}" >Home</a> | 
+                              <a id="info" href="{% url 'admin:index' %}"  >Info</a> 
                               |
                               <a id="push" href="#pushMessage" data-toggle="modal">Notification</a> 
                               |
