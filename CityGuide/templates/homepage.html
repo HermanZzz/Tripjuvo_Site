@@ -74,19 +74,21 @@
                 </div>
               </div>-->
             {% endblock %}
-            {% if not is_popup %}
+            {% if not user.is_active %}
             <div id="user-tools">
            <strong> <a href="{% url 'admin:index' %}">{% trans 'Log in' %}</a></strong>
            </div>
             {% endif %}
             {% if user.is_active and user.is_staff %}
               <div id="user-tools">
+                {% if is_popup %}
                 {% block welcome-msg %}
                   {% trans 'Welcome,' %}
                   <strong>
                     {% filter force_escape %}
                       {% firstof user.first_name user.username %}{% endfilter %}</strong>.
                 {% endblock %}
+                {% endif %}
                 <span class="user-links">
                 {% block userlinks %}
                   {% url 'django-admindocs-docroot' as docsroot %}
@@ -94,7 +96,7 @@
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
                     <span class="separator">|</span>
                   {% endif %}
-                  {% if is_popup %}
+               
                   <a href="{% url 'info:index' %}">{% trans 'Home' %}</a>
                   <span class="separator">|</span>
                   <a href="{% url 'admin:index' %}">{% trans 'Info' %}</a>
@@ -104,9 +106,8 @@
                   <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
                   <span class="separator">|</span>
                   <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
-                  {% else %}
-                  <a href="{% url 'admin:index' %}">{% trans 'Log in' %}</a>
-                  {% endif %}
+     
+               
                 {% endblock %}
                 </span>
               </div>
@@ -147,15 +148,15 @@
   <div id="footer" class="footer">
     <div class="content">
       <div class="tools">
-          {% if is_popup %}
-          <a href="{% url 'info:index' %}" >Home</a> | 
-          <a id="info" href="{% url 'admin:index' %}"  >Info</a> 
+          {% if user.is_active %}
+          <a href="{% url 'info:index' %}" >{% trans 'Home' %}</a> | 
+          <a id="info" href="{% url 'admin:index' %}"  >{% trans 'Info ' %}</a> 
           |
-          <a id="push" href="#pushMessage" data-toggle="modal">Notification</a> 
+          <a id="push" href="#pushMessage" data-toggle="modal">{% trans 'Notification' %}</a> 
           |
-          <a id="logout" href="{% url 'admin:logout' %}" >Logout</a> 
+          <a id="logout" href="{% url 'admin:logout' %}" >{% trans 'Log out' %}</a> 
           {% else %}
-          <b><a href="{% url 'admin:index' %}">Log in</a></b>   
+          <b><a href="{% url 'admin:index' %}">{% trans 'Log in' %}</a></b>   
           {% endif %}                  
       </div>
 
@@ -189,13 +190,13 @@
                       <div class="tab-content">
                           <div class="tab-pane active" id="information">
 
-                              <div align="left"><h4 >Push Notification</h4></div>
+                              <div align="left"><h4 >{% trans 'Push Notification' %}</h4></div>
                               <form class="form-horizontal" id="push-form" action="" method="POST" style="text-align:center;">
                                 {% csrf_token %}
                                  <fieldset>
                                     <div class="control-group">
                                     <!-- Text input-->
-                                      <label class="control-label">Insert Tittle</label>
+                                      <label class="control-label">{% trans 'Insert Tittle' %}</label>
                                       <div class="controls">
                                         <input type="text" name = "tittle" id="tittle" placeholder="Tittle" class="input-xlarge form-control">
                                         <p class="help-block"> </p>
@@ -203,7 +204,7 @@
                                     </div>
                                     <div class="control-group">
                                     <!-- Text input-->
-                                     <label class="control-label">Insert Message</label>
+                                     <label class="control-label">{% trans 'Insert Message' %}</label>
                                       <div class="controls">
                                         <input type="text" name = "massage" id="massage" placeholder="Massage" class="input-xlarge form-control">
                                         <p class="help-block"> </p>
@@ -214,7 +215,7 @@
                                           <label class="control-label"> </label>
                                           <!-- Button -->
                                           <div class="controls">
-                                            <button type="submit" class="btn btn-success">Send</button>
+                                            <button type="submit" class="btn btn-success">{% trans 'Send' %}</button>
                                           </div>
                                           <p class="help-block"></p>
                                      </div>
