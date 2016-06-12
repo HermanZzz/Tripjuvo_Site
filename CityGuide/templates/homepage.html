@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% endblock %}"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/bootstrap/css/bootstrap.min.css' %}" media="all"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}" media="all">
-      <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/home.css">
   {% block extrastyle %}{% endblock %}
   {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"/>{% endif %}
   <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
@@ -74,7 +74,11 @@
                 </div>
               </div>-->
             {% endblock %}
-
+            {% if not is_popup %}
+            <div id="user-tools">
+           <strong> <a href="{% url 'admin:index' %}">{% trans 'Log in' %}</a></strong>
+           </div>
+            {% endif %}
             {% if user.is_active and user.is_staff %}
               <div id="user-tools">
                 {% block welcome-msg %}
@@ -90,7 +94,7 @@
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
                     <span class="separator">|</span>
                   {% endif %}
-
+                  {% if is_popup %}
                   <a href="{% url 'info:index' %}">{% trans 'Home' %}</a>
                   <span class="separator">|</span>
                   <a href="{% url 'admin:index' %}">{% trans 'Info' %}</a>
@@ -100,6 +104,9 @@
                   <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
                   <span class="separator">|</span>
                   <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+                  {% else %}
+                  <a href="{% url 'admin:index' %}">{% trans 'Log in' %}</a>
+                  {% endif %}
                 {% endblock %}
                 </span>
               </div>
@@ -136,20 +143,20 @@
 
 
 {% block footer %}
-{% if not is_popup %}
+
   <div id="footer" class="footer">
     <div class="content">
       <div class="tools">
-       
-                              <a href="{% url 'info:index' %}" >Home</a> | 
-                              <a id="info" href="{% url 'admin:index' %}"  >Info</a> 
-                              |
-                              <a id="push" href="#pushMessage" data-toggle="modal">Notification</a> 
-                              |
-                              <a id="logout" href="{% url 'admin:logout' %}" >Logout</a> 
-                              {% else %}
-                              <b><a href="{% url 'admin:index' %}">Sign in</a></b>
-                              
+          {% if is_popup %}
+          <a href="{% url 'info:index' %}" >Home</a> | 
+          <a id="info" href="{% url 'admin:index' %}"  >Info</a> 
+          |
+          <a id="push" href="#pushMessage" data-toggle="modal">Notification</a> 
+          |
+          <a id="logout" href="{% url 'admin:logout' %}" >Logout</a> 
+          {% else %}
+          <b><a href="{% url 'admin:index' %}">Log in</a></b>   
+          {% endif %}                  
       </div>
 
       <div class="branding">{% block footer_branding %}
@@ -162,7 +169,7 @@
       {% endblock %}</div>
     </div>
   </div>
-  {% endif %}
+  
 {% endblock %}
 
 <!-- to top -->

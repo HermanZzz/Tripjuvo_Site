@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% endblock %}"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/bootstrap/css/bootstrap.min.css' %}" media="all"/>
   <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}" media="all">
-      <link rel="stylesheet" href="/static/css/home.css">
+  <link rel="stylesheet" href="/static/css/home.css">
   {% block extrastyle %}{% endblock %}
   {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"/>{% endif %}
   <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
@@ -90,7 +90,7 @@
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
                     <span class="separator">|</span>
                   {% endif %}
-
+                  
                   <a href="{% url 'info:index' %}">{% trans 'Home' %}</a>
                   <span class="separator">|</span>
                   <a href="{% url 'admin:index' %}">{% trans 'Info' %}</a>
@@ -197,34 +197,30 @@
 
 {% block footer %}
   {% if not is_popup %}
-    <footer id="footer" class="top-space">
-      <div class="footer2">
-          <div class="container">
-              <div class="row">               
-                  <div class="col-md-6 widget">
-                      <div class="widget-body">
-                          <p class="simplenav" stlye="">
-                              {% if has_permission %}
-                              <a href="{% url 'info:index' %}" >Home</a> | 
-                              <a id="info" href="{% url 'admin:index' %}"  >Info</a> 
-                              |
-                              <a id="push" href="#pushMessage" data-toggle="modal">Notification</a> 
-                              |
-                              <a id="logout" href="{% url 'admin:logout' %}" >Logout</a> 
-                              {% else %}
-                              <b><a href="{% url 'admin:index' %}">Sign in</a></b>
-                              {% endif %}
-                              | 
-                              <a href="javascript:scroll(0,0)">
-                              <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                              </a>
-                          </p>
-                      </div>
-                  </div>
-              </div> <!-- /row of widgets -->
-          </div>
+  <div id="footer" class="footer">
+    <div class="content">
+      <div class="tools">
+          <a href="{% url 'info:index' %}">{% trans 'Home' %}</a>
+          <span class="separator">|</span>
+          <a href="{% url 'admin:index' %}">{% trans 'Info' %}</a>
+          <span class="separator">|</span>
+          <a id="push" href="#pushMessage" data-toggle="modal">{% trans 'Notification' %}</a>
+          <span class="separator">|</span>
+          <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
+          <span class="separator">|</span>
+          <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>                    
       </div>
-    </footer>   
+
+      <div class="branding">{% block footer_branding %}
+        {% with 'ADMIN_NAME'|suit_conf as admin_name %}
+          {{ admin_name }}
+          {% if admin_name == 'Django Suit' %}
+            v{{ 'VERSION'|suit_conf }}
+          {% endif %}
+        {% endwith %}
+      {% endblock %}</div>
+    </div>
+  </div>
   {% endif %}
 {% endblock %}
 
@@ -246,7 +242,7 @@
                           <div class="tab-pane active" id="information">
 
                               <div align="left"><h4 >Push Notification</h4></div>
-                              <form class="form-horizontal" id="push-form" action="" method="POST" style="text-align:center;">
+                              <form class="form-horizontal" id="push-form" action="{% url 'push:index' %}" method="POST" style="text-align:center;">
                                 {% csrf_token %}
                                  <fieldset>
                                     <div class="control-group">
