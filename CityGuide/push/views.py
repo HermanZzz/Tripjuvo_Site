@@ -11,7 +11,8 @@ def index(request):
 		title = request.POST['title']
 		message = request.POST['message']
 	except Exception, e:
-		return render(request,'push/push.html')
+
+		return HttpResponseRedirect('/info')
 	else:
 		API_KEY = 'AIzaSyCOrMd2EeuSp4YmBStM-qgRUzbulUitmIM'
 		URI =  'https://android.googleapis.com/gcm/send'
@@ -52,4 +53,4 @@ def index(request):
 		    for reg_id, canonical_id in response['canonical'].items():
 		        print("Replacing reg_id: {0} with canonical_id: {1} in db".format(reg_id, canonical_id))
 
-		return HttpResponseRedirect('/push')
+		return HttpResponseRedirect('/info')

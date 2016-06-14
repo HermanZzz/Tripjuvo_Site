@@ -191,7 +191,7 @@
                           <div class="tab-pane active" id="information">
 
                               <div align="left"><h4 >{% trans 'Push Notification' %}</h4></div>
-                              <form class="form-horizontal" id="push-form" action="" method="POST" style="text-align:center;">
+                              <form class="form-horizontal" id="push-form" action="{% url 'push:index' %}" method="POST" style="text-align:center;">
                                 {% csrf_token %}
                                  <fieldset>
                                     <div class="control-group">
